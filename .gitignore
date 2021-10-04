@@ -1,0 +1,9 @@
+# editor backup files
+*.swp
+*.bak
+
+# binary files from builds
+*.bin
+*.out
+*.elf
+
