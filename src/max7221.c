@@ -11,7 +11,7 @@
 
 static void  writeLED(ubyte reg, ubyte data);
 
-void 
+void
 startLED(void* unused)
 {
     ubyte dig0, dig1, dig2, dig3;
@@ -54,7 +54,7 @@ startLED(void* unused)
 
     while (!rtc_ok)
         pause(100);
-    
+   
     writeLED(LED_TEST_REG, LED_TEST_DISABLE);
     led_ok = true;
 
@@ -101,7 +101,7 @@ startLED(void* unused)
  * -----------------------------------------------------------------------
  * writes occur msb first - see MAX7221 datasheet for details
  */
-static void 
+static void
 writeLED(ubyte cmd, ubyte data)
 {
     low(LED_CS);
