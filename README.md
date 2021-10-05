@@ -1,17 +1,35 @@
 # UNA ACM Hackable Clock V2 Project
 
-![ACM logo](images/acm_logo_tablet.png)
-![UNA logo](images/secondary-purple-outline-small.jpg)
-
 ## Project Overview
 
 The [University of North Alabama](https://www.una.edu/computing) student chapter of [ACM](https://www.acm.org) co-sponsored the Hackable Clock V2 Project with the Department of Computer Science and Information Systems. Participants in the extracurricular project received a kit containing all of the electronic components, printed circuit board (pcb), and software tools to assemble and program their own digital alarm clock.
 
-The [digital alarm clock kit](https://www.backwoods.science/hack2/) is based on the Parallax Propeller chip and the software is written in C. The clock was conceived to be "hackable". The clock's functionality may be extended using the exposed CPU pins (P8-P23) along with 3.3V and 5V power connectors designed into the pcb for enhancing the clock's capabilities (for example: obtain time from GPS, use sound files for the alarm, connect the clock to wireless).
+The [digital alarm clock kit](https://www.backwoods.science/hack2/) is based on the Parallax Propeller chip and the software is written in C. The clock was conceived to be "hackable". The clock's functionality can be extended using the exposed CPU pins (P8-P23) along with 3.3V and 5V power connectors designed into the pcb (for example: obtain time from GPS, use sound files for the alarm, connect the clock to wireless).
 
 ![Completed clock V2/R1](images/completed_clock.png)
 
-## Component datasheets and Schematic
+## User Interface Design
+
+The [user interface document](design/interface.md) describes how to manipulate the clock's functions. The clock functions include an alarm, two types of snooze, the date, day of week, and display brightness. All of the clock's functions are accessed using the four buttons and switch.
+
+## Software Design
+
+The software is organized into the following modules:
+
+Module    | Description
+----------|------------------------------------------------------------------
+clock.c   | Main driver and user interface
+common.h  | Common definitions, shared memory variables, and pin assignments
+ds1302.h  | Definitions and pin assignments - Timekeeping IC driver
+ds1302.c  | Timekeeping IC driver
+max7221.h | Definitions and pin assignments - LED display driver
+max7221.c | LED display driver
+alarm.h   | Definitions and pin assignments - Alarm driver
+alarm.c   | Alarm driver
+
+The file _clock.side_ is the project file and contains compiler flags, linker flags, and CPU constants.
+
+## Component Datasheets and Schematic
 
 * [Microcontroller (CPU)](https://www.parallax.com/package/p8x32a-propeller-datasheet/)
 * [EEPROM](https://ww1.microchip.com/downloads/en/DeviceDoc/24AA256-24LC256-24FC256-Data-Sheet-20001203W.pdf)
@@ -19,13 +37,14 @@ The [digital alarm clock kit](https://www.backwoods.science/hack2/) is based on 
 * [LED display driver IC](https://datasheets.maximintegrated.com/en/ds/MAX7219-MAX7221.pdf)
 * [Clock schematic](design/Hackable_Clock_2_schematic.pdf)
 
-## Printed circuit board (PCB)
+## Printed Circuit Board (PCB)
 
 [PCB layout](design/Hackable_Clock_2_board.pdf)
+
 ![Front V2/R1 of PCB](images/front.png)
 ![Back V2/R1 of PCB](images/back.png)
 
-## Bill of materials
+## Bill of Materials
 
 Schematic ID | Item             | Description
 -------------|------------------|----------------
