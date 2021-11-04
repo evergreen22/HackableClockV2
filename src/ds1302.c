@@ -21,7 +21,9 @@ static void  readDate(ubyte* month, ubyte* day, ubyte* yr, ubyte* dow);
 static void  writeRTC(ubyte command, ubyte data[], ubyte datalen);
 static void  readRTC(ubyte command, ubyte data[], ubyte datalen);
 
-// helper functions TBD
+static ubyte reverseByte(ubyte data);
+static ubyte bcd2bin(ubyte data);
+static ubyte bin2bcd(ubyte data);
 
 void
 startRTC(void* unused)
@@ -166,9 +168,14 @@ getConfig(ubyte data[])
 static void
 writeTime(ubyte hr, ubyte min, ubyte sec)
 {
-    // use writeRTC 3 times [hours, minutes, seconds]
-    // enable 24 hour mode
-    // disable clock halt
+    ubyte data[1];
+
+    data[0] = bin2bcd(hr) & 0x3F; /* enable 24 hour mode */
+    writeRTC(RTC_WRITE_HRS, data, 1);
+    data[0] = bin2bcd(min);
+    writeRTC(RTC_WRITE_MINS, data, 1);
+    data[0] = bin2bcd(sec) & 0x7F;  /* clock halt disabled */
+    writeRTC(RTC_WRITE_SECS, data, 1);
 }
 
 /*
@@ -203,13 +210,37 @@ readDate(ubyte * month, ubyte * day, ubyte * yr, ubyte * dow)
 
 /*
  * -----------------------------------------------------------------------
- * writes occur lsb first - see DS1302 datasheet for details
+ * reads and writes occur lsb first - see DS1302 datasheet for details
  */
 static void
 writeRTC(ubyte command, ubyte data[], ubyte datalen)
 {
-    // write command bits
-    // write data bits
+    high(RTC_CE);
+
+    for (ubyte i = 0; i < 8; i++) {
+        if (command & 0x01)
+            high(RTC_DAT);
+        else
+            low(RTC_DAT);
+        high(RTC_CLK);
+        command = command >> 1;
+        low(RTC_CLK);
+    }
+
+    for (ubyte i = 0; i < datalen; i++) {
+        ubyte onebyte = data[i];
+        for (ubyte j = 0; j < 8; j++) {
+            if (onebyte & 0x01)
+                high(RTC_DAT);
+            else
+                low(RTC_DAT);
+            high(RTC_CLK);
+            onebyte = onebyte >> 1;
+            low(RTC_CLK);
+        }
+    }
+
+    low(RTC_CE);
 }
 
 /*
@@ -221,4 +252,38 @@ readRTC(ubyte command, ubyte data[], ubyte datalen)
 {
     // write command bits
     // read data bits
+}
+
+/*
+ * -----------------------------------------------------------------------
+ * reads and writes occur lsb first - see DS1302 datasheet for details
+ */
+static ubyte
+reverseByte(ubyte data)
+{
+    // reverse the order of the bits in one byte
+    // for example, if input data = 1100 1011
+    // output data = 1101 0011
+}
+
+/*
+ * -----------------------------------------------------------------------
+ * RTC stores data in bcd, convert a value read from the chip to binary
+ */
+static ubyte
+bcd2bin(ubyte data)
+{
+    // convert a bcd value to binary
+    // for example, if input data = 0010 0100
+    // output data = 0001 1000
+}
+
+/*
+ * -----------------------------------------------------------------------
+ * RTC stores data in bcd, convert a value to store on the chip to bcd
+ */
+static ubyte
+bin2bcd(ubyte data)
+{
+    // convert a binary value to bcd
 }
