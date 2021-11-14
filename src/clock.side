@@ -1,0 +1,17 @@
+clock.c
+common.h
+ds1302.c
+ds1302.h
+max7221.c
+max7221.h
+alarm.c
+alarm.h
+>compiler=C
+>memtype=cmm main ram compact
+>optimize=-Os
+>-m32bit-doubles
+>-Wall
+>-fno-exceptions
+>defs::-std=c99
+>-lm
+>BOARD::GENERIC
