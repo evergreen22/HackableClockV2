@@ -18,7 +18,7 @@ Follow these steps on any lab PC to install the hardware test program:
 4.  [Connect the programmer](../images/connector.png) to your clock - Match the *RX TX RST VSS* on the clock
 5.  Connect the USB cable to the computer
 6.  Unpackage your clock's power supply and plug it into power and the clock
-7.  Download the [hardware test program](hardware-test/hwtest.binary) to the lab computer
+7.  Download the [hardware test program](hwtest.binary) to the lab computer
 8.  Double-click the *hwtest.binary* file - the SPIN/Upload tool will open ([screenshot](../images/spintool.jpg))
 9.  Click the *Load EEPROM* button - you will see LEDs blinking on the programmer and status messages on the lab computer screen as the test program is being uploaded to your clock
 10. The hardware test program will automatically run when the upload is done. You may disconnect the programmer after the upload is finished.
