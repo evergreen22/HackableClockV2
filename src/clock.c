@@ -126,7 +126,11 @@ failBeep(int err)
 static ubyte
 updateDisplay(void)
 {
-
+    // acquire the time semaphore, store time variables into locals, and release
+    // if the alarm is enabled set a var to turn the the leftmost decimal point on
+    // if it is after noon (p.m.) set a var to turn the the rightmost decimal point on
+    // acquire the display semaphore, update the display variables, and release
+    // return the seconds
 }
 
 /*
@@ -136,7 +140,11 @@ updateDisplay(void)
 static void
 showAlarm(void)
 {
-
+    // acquire the display semaphore
+    // turn off all the decimal points
+    // update the display with the alarm values
+    // release the display semaphore
+    // pause for 5 seconds
 }
 
 /*
@@ -146,7 +154,15 @@ showAlarm(void)
 static void
 showDate(void)
 {
-
+    // acquire the time semaphore, store date vars into locals, release
+    // acquire the display semaphore
+    // turn off all the decimal points
+    // update the display with the month and day values
+    // release the display semaphore
+    // pause for 2.5 seconds
+    // acquire the display semaphore
+    // update the display with the year value
+    // release the display semaphore
 }
 
 /*
@@ -156,7 +172,11 @@ showDate(void)
 static void
 showDOW(void)
 {
-
+    // acquire the display semaphore
+    // turn off all the decimal points
+    // update the display with the dow value
+    // release the display semaphore
+    // pause for 5 seconds
 }
 
 /*
@@ -328,7 +348,8 @@ setTime(void)
 static int
 setAlarm(void)
 {
-
+    // set the alarm hour and minutes - this function is similar to setTime()
+    // set both valid_cfg and save_cfg to true to save the alarm time
 }
 
 /*
@@ -339,7 +360,9 @@ setAlarm(void)
 static int
 setAlarmDuration(void)
 {
-
+    // set the alarm duration - this function is similar to setTime()
+    // note the range for valid values in the function description
+    // set both valid_cfg and save_cfg to true to save the duration
 }
 
 /*
@@ -350,7 +373,9 @@ setAlarmDuration(void)
 static int
 setSnoozeInterval(void)
 {
-
+    // set the snooze interval - this function is similar to setTime()
+    // note the range for valid values in the function description
+    // set both valid_cfg and save_cfg to true to save the snooze interval
 }
 
 /*
@@ -361,7 +386,9 @@ setSnoozeInterval(void)
 static int
 setSnoozeRepeat(void)
 {
-
+    // set the snooze repeat - this function is similar to setTime()
+    // note the range for valid values in the function description
+    // set both valid_cfg and save_cfg to true to save the snooze repeat
 }
 
 /*
@@ -372,7 +399,9 @@ setSnoozeRepeat(void)
 static int
 setBrightness(void)
 {
-
+    // set the display brightness - this function is similar to setTime()
+    // note the range for valid values in the function description
+    // set both valid_cfg and save_cfg to true to save the brightness
 }
 
 /*
@@ -383,7 +412,9 @@ setBrightness(void)
 static ubyte
 setYear(void)
 {
-
+    // set the year (no century) - this function is similar to setTime()
+    // note the range for valid values in the function description
+    // return the year value - do not save it yet
 }
 
 /*
@@ -394,7 +425,9 @@ setYear(void)
 static ubyte
 setMonth(void)
 {
-
+    // set the month - this function is similar to setTime()
+    // note the range for valid values in the function description
+    // return the month value - do not save it yet
 }
 
 /*
@@ -405,7 +438,13 @@ setMonth(void)
 static void
 setDay(ubyte month, ubyte year)
 {
-
+    // set the day - this function is similar to setTime()
+    // note the range for valid values in the function description
+    // remember, months have different maximum values for the day
+    // also remember, leap years affect the maximum day value in February
+    // after the day is selected, calculate the day-of-week (dow) by calling calcDOW()
+    // store month, day, year, and dow values into the common "set_*" variables (in common.h)
+    // set save_cfg to true to save the date values
 }
 
 /*
@@ -413,10 +452,11 @@ setDay(ubyte month, ubyte year)
  * use Zeller's congruence to calculate the day of the week (dow).
  * based on implementation in RFC 3339 (Sun = 0, Mon = 1, ..., Sat = 6)
  * DS1302+ is limited to century = 20, see datasheet
- * DS1302+ dow values are in the range 1...6, see datasheet (ISO 8601)
+ * DS1302+ dow values are in the range 1...7, see datasheet (ISO 8601)
  */
 static ubyte
 calcDOW(ubyte m, ubyte d, ubyte y)
 {
-
+    // use your favorite web search tool to find RFC 3339
+    // return the computed dow (note the range)
 }
